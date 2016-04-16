@@ -7,4 +7,4 @@ ENV=/ecsboot.env
 docker run -d --net host \
     -v /var/run/docker.sock:/tmp/docker.sock \
     gliderlabs/registrator \
-        -i $LOCALIP consul://127.0.0.1:8500
+        -ip=$LOCALIP consul://127.0.0.1:8500
