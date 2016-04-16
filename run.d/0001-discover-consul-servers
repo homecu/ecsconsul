@@ -4,6 +4,6 @@ ENV=/ecsboot.env
 
 . $ENV
 
-CONSUL_SERVERS=$(docker run --rm uzyexe/nmap -p 8300 -n -T5 --open -oG - $SUBNETS | \
-                 grep "Status: Up" | awk '{print $2}' | xargs)
+CONSUL_SERVERS=$(docker run --rm uzyexe/nmap -p 8300 -n -T4 --open -oG - \
+    $SUBNETS | grep "Status: Up" | awk '{print $2}' | xargs)
 echo "CONSUL_SERVERS=\"$CONSUL_SERVERS\"" >> $ENV
