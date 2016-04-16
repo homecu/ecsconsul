@@ -7,7 +7,7 @@ ENV=/ecsboot.env
 JOIN_ARGS=$(for x in $CONSUL_SERVERS; do echo -retry-join=$x ; done)
 
 mkdir -p /hostroot/ecs/consul
-docker run -d --restart=always \
+docker run -d \
     -p 8300:8300 \
     -p 8301:8301 \
     -p 8301:8301/udp \
