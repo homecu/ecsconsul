@@ -1,0 +1,23 @@
+#!/bin/sh
+
+ENV=/ecsboot.env
+
+. $ENV
+
+JOIN_ARGS=$(for x in $CONSUL_SERVERS; do echo -retry-join=$x ; done)
+
+mkdir -p /hostroot/ecs/consul
+docker run -d --restart=always \
+    -p 8300:8300 \
+    -p 8301:8301 \
+    -p 8301:8301/udp \
+    -p 8400:8400 \
+    -p 8500:8500 \
+    -p 53:8600 \
+    -p 53:8600/udp \
+    -v /ecs/consul:/data \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    gliderlabs/consul \
+        agent -server -data-dir=/data -client=0.0.0.0 -advertise=$LOCALIP \
+        -node=$IID -bootstrap-expect=3 -ui $JOIN_ARGS \
+        -retry-max=30 -retry-interval=2s -recursor=$VPCDNS

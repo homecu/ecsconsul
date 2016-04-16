@@ -1,0 +1,25 @@
+#!/bin/sh
+
+ENV=/ecsboot.env
+
+LOCALIP=$(curl -s http://169.254.169.254/latest/meta-data/local-ipv4)
+echo LOCALIP=$LOCALIP > $ENV
+
+IID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)
+echo IID=$IID >> $ENV
+
+MAC=$(curl -s http://169.254.169.254/latest/meta-data/mac)
+echo MAC=$MAC >> $ENV
+
+VPCID=$(curl -s http://169.254.169.254/latest/meta-data/network/interfaces/macs/$MAC/vpc-id)
+echo VPCID=$VPCID >> $ENV
+
+VPCNET=$(curl -s http://169.254.169.254/latest/meta-data/network/interfaces/macs/$MAC/vpc-ipv4-cidr-block)
+echo VPCNET=$VPCNET >> $ENV
+
+VPCDNS=$(echo $VPCNET | awk -F0/ '{print $1}')2
+echo VPCDNS=$VPCDNS >> $ENV
+
+SUBNETS=$(aws --output text ec2 describe-subnets --region us-west-2 \
+          --filters Name=vpc-id,Values=$VPCID | grep SUBNETS | awk '{print $4}' | xargs)
+echo "SUBNETS=\"$SUBNETS\"" >> $ENV
