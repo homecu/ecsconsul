@@ -1,0 +1,31 @@
+#!/bin/env python
+
+import boto3
+import botocore.exceptions
+import requests
+import sys
+
+ALIVE = 1
+FAILED = 2
+LEFT = 3
+
+members = requests.get('http://172.17.0.1:8500/v1/agent/members').json()
+failed = [x['Name'] for x in members if x['Status'] == FAILED]
+if not failed:
+    sys.exit(0)
+
+ec2 = boto3.client('ec2')
+
+for x in failed:
+    print("Checking status of failed cluster node: %s" % x)
+    try:
+        idesc = ec2.describe_instances(InstanceIds=[x])
+    except botocore.exceptions.ClientError:
+        pass
+    else:
+        state = idesc['Reservations'][0]['Instances'][0]['Status']['Name']
+        if state not in ('terminated', ):
+            print("Ignoring undead node (%s) in state: %s" % (x, state))
+            continue
+    print("Forcing leave of: %s" % x)
+    print(requests.get('http://172.17.0.1:8500/v1/agent/force-leave/%s' % x))
