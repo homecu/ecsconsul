@@ -1,0 +1,30 @@
+#!/usr/bin/env python
+
+import boto3
+import botocore.exceptions
+import requests
+
+nodes = requests.get('http://172.17.0.1:8500/v1/catalog/nodes').json()
+region = requests.get('http://169.254.169.254/latest/meta-data/placement/availability-zone').text[:-1]
+ec2 = boto3.client('ec2', region_name=region)
+
+for i, x in enumerate(nodes):
+    print("Checking consul node[%d/%d]: %s (%s)" % (i, len(nodes), x['Node'],
+                                                    x['Address']))
+    try:
+        idesc = ec2.describe_instances(InstanceIds=[x])
+    except botocore.exceptions.ClientError:
+        pass
+    else:
+        state = idesc['Reservations'][0]['Instances'][0]['Status']['Name']
+        if state == 'running':
+            print("Healthy node[%d/%d]: %s (%s)" % (i, len(nodes), x['Node'],
+                  x['Address']))
+            continue
+        elif state != 'terminated':
+            print("Transient node[%d/%d] state (%s): %s (%s)" % (i, len(nodes),
+                  state,x['Node'], x['Address']))
+            continue
+    print("Forcing leave of node[%d/%d]: %s (%s)" % (i, len(nodes), x['Node'],
+          x['Address']))
+    print(requests.get('http://172.17.0.1:8500/v1/agent/force-leave/%s' % x['Node']))

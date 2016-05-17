@@ -1,6 +1,4 @@
-FROM jmayfield/ecsbootstrap:v5
-
-RUN pip install boto3 requests
+FROM jmayfield/ecsbootstrap:v6
 
 COPY overrides /overrides
 COPY run.d /run.d

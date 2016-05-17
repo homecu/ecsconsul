@@ -11,6 +11,9 @@ echo IID=$IID >> $ENV
 MAC=$(curl -s http://169.254.169.254/latest/meta-data/mac)
 echo MAC=$MAC >> $ENV
 
+REGION=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone | head -c -1)
+echo REGION=$REGION >> $ENV
+
 VPCID=$(curl -s http://169.254.169.254/latest/meta-data/network/interfaces/macs/$MAC/vpc-id)
 echo VPCID=$VPCID >> $ENV
 
@@ -20,9 +23,7 @@ echo VPCNET=$VPCNET >> $ENV
 VPCDNS=$(echo $VPCNET | awk -F0/ '{print $1}')2
 echo VPCDNS=$VPCDNS >> $ENV
 
-SUBNETS=$(aws --output text ec2 describe-subnets --region us-west-2 \
+SUBNETS=$(aws --output text ec2 describe-subnets --region $REGION \
           --filters Name=vpc-id,Values=$VPCID | grep SUBNETS | awk '{print $4}' | xargs)
 echo "SUBNETS=\"$SUBNETS\"" >> $ENV
 
-REGION=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone | head --bytes -1)
-echo "REGION=\"$REGION\"" >> $ENV
