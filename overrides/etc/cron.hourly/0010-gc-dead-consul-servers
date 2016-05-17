@@ -1,4 +1,8 @@
-#!/usr/bin/env python
+#!/bin/bash
+
+pip install boto3 requests
+
+python <<EOF
 
 import boto3
 import botocore.exceptions
@@ -28,3 +32,5 @@ for i, x in enumerate(nodes):
     print("Forcing leave of node[%d/%d]: %s (%s)" % (i, len(nodes), x['Node'],
           x['Address']))
     print(requests.get('http://172.17.0.1:8500/v1/agent/force-leave/%s' % x['Node']))
+
+EOF
