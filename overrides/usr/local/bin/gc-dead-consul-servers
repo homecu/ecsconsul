@@ -23,14 +23,15 @@ for i, x in enumerate(nodes, 1):
     except botocore.exceptions.ClientError:
         pass
     else:
-        state = idesc['Reservations'][0]['Instances'][0]['State']['Name']
-        if state == 'running':
-            print("Healthy node[%d/%d]: %s" % (i, len(nodes), x))
-            continue
-        elif state != 'terminated':
-            print("Transient node[%d/%d] state (%s): %s" % (i, len(nodes),
-                  state, x))
-            continue
+        if idesc['Reservations']:
+            state = idesc['Reservations'][0]['Instances'][0]['State']['Name']
+            if state == 'running':
+                print("Healthy node[%d/%d]: %s" % (i, len(nodes), x))
+                continue
+            elif state != 'terminated':
+                print("Transient node[%d/%d] state (%s): %s" % (i, len(nodes),
+                      state, x))
+                continue
     print("Forcing leave of node[%d/%d]: %s" % (i, len(nodes), x))
     r = requests.get(consul_uri + '/v1/agent/force-leave/%s' % x)
     if r.status_code != 200:

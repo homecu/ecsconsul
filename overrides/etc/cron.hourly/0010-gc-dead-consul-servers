@@ -1,4 +1,4 @@
 #!/bin/sh
-yum install python-pip
+yum install -y python-pip
 python-pip install boto3 requests
 exec python2.6 /usr/local/bin/gc-dead-consul-servers
