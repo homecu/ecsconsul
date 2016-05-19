@@ -1,6 +1,5 @@
 #!/bin/sh
 
 docker run -d -p 10514:514/udp \
-    -e TOKEN="fc440234-a8e9-4a38-af4b-3f41b6ab916f" \
-    -e TAG=Docker \
+    -e TOKEN="$LOGGLY_TOKEN" \
     sendgridlabs/loggly-docker

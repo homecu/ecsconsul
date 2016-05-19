@@ -1,16 +1,21 @@
-odyssey-ecsbootstrap
+ecsconsul
 ========
-To be used on ECS instances to bootstrap their env.
+Bootstrap an ECS cluster instance with consul and some extras.
 
 
 Example user-data
 --------
+The use of this container is to run consul and some extras on an AWS ECS
+optimized AMI.  Your autoscaling group should use this user-data for proper
+operation.
+
 ```
 #!/bin/bash -x
-yum install -y aws-cli
-$(aws ecr get-login --region us-west-2)
-docker pull 265109528935.dkr.ecr.us-west-2.amazonaws.com/ecsbootstrap:latest
-docker run --net host -v /var/run/docker.sock:/var/run/docker.sock -v /:/hostroot 265109528935.dkr.ecr.us-west-2.amazonaws.com/ecsbootstrap:latest
+docker run --net host \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    -v /:/hostroot \
+    -e LOGGLY_TOKEN=YOUR-LOGGLY-API-TOKEN-HERE \
+    homecu/ecsconsul
 if [ $? -eq 3 ] ; then
   reboot
 fi

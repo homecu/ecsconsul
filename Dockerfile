@@ -1,4 +1,4 @@
-FROM jmayfield/ecsbootstrap:v6
+FROM homecu/ecsbootstrap:v7
 
 RUN pip install boto3 requests
 

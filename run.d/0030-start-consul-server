@@ -1,8 +1,6 @@
 #!/bin/sh
 
-ENV=/ecsboot.env
-
-. $ENV
+. /ecsboot.env
 
 JOIN_ARGS=$(for x in $CONSUL_SERVERS; do echo -retry-join=$x ; done)
 
