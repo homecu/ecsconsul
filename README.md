@@ -11,6 +11,8 @@ operation.
 
 ```
 #!/bin/bash -x
+cat >> /etc/rc.local <<EOF
+
 docker run --net host \
     -v /var/run/docker.sock:/var/run/docker.sock \
     -v /:/hostroot \
@@ -19,4 +21,6 @@ docker run --net host \
 if [ $? -eq 3 ] ; then
   reboot
 fi
+
+EOF
 ```
