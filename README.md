@@ -13,12 +13,12 @@ operation.
 #!/bin/bash -x
 cat >> /etc/rc.local <<EOF
 
-docker run --net host \
-    -v /var/run/docker.sock:/var/run/docker.sock \
-    -v /:/hostroot \
-    -e LOGGLY_TOKEN=YOUR-LOGGLY-API-TOKEN-HERE \
+docker run --net host \\
+    -v /var/run/docker.sock:/var/run/docker.sock \\
+    -v /:/hostroot \\
+    -e LOGGLY_TOKEN=YOUR-LOGGLY-API-TOKEN-HERE \\
     homecu/ecsconsul
-if [ $? -eq 3 ] ; then
+if [ \$? -eq 3 ] ; then
   reboot
 fi
 
