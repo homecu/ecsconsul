@@ -13,6 +13,7 @@ operation.
 #!/bin/bash -x
 cat >> /etc/rc.local <<EOF
 
+docker pull homecu/ecsconsul
 docker run --net host \\
     -v /var/run/docker.sock:/var/run/docker.sock \\
     -v /:/hostroot \\
