@@ -1,0 +1,9 @@
+#!/bin/sh -x
+
+docker run \
+    --detach \
+    --volume /var/run/docker.sock:/var/run/docker.sock \
+    --link logstash:logstash \
+    docker-stats -- \
+        --statsinterval 60 \
+        --host logstash:19831
