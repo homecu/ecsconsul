@@ -14,7 +14,7 @@ echo MAC=$MAC >> $ENV
 AZ=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone)
 echo AZ=$AZ >> $ENV
 
-REGION=$(echo $AZ | head -c -1)
+REGION=$(echo -n $AZ | head -c -1)
 echo REGION=$REGION >> $ENV
 
 VPCID=$(curl -s http://169.254.169.254/latest/meta-data/network/interfaces/macs/$MAC/vpc-id)
