@@ -1,0 +1,10 @@
+#!/bin/sh -x
+
+if [ -z "$EFS_ID" ] ; then
+    exit
+fi
+
+. /ecsboot.env
+
+chroot /hostroot yum install -y nfs-utils
+chroot /hostroot mount -t nfs4 -o nfsvers=4.1 $AZ.$EFS_ID.efs.$REGION.amazonaws.com:/ /efs
