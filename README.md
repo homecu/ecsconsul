@@ -13,12 +13,12 @@ operation.
 #!/bin/bash -x
 cat >> /etc/rc.local <<EOF
 
-docker pull homecu/ecsconsul
+docker pull homecu/ecsextender
 docker run --net host \\
     -v /var/run/docker.sock:/var/run/docker.sock \\
     -v /:/hostroot \\
     --privileged \\
-    homecu/ecsconsul
+    homecu/ecsextender
 if [ \$? -eq 3 ] ; then
   reboot
 fi
