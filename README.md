@@ -54,5 +54,3 @@ EOF
 
 1. **ELASTICSEARCH_HOST** - Centralize logging to an elasticsearch service.
    Example value: `search-foo-ezl00000000000BBBBBBBBBBBB.us-west-2.es.amazonaws.com:80`
-
-2. **EFS_ID** - Mount an EFS filesystem with this ID (eg. `fs-12345678`) to `/efs`
