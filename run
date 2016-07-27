@@ -1,0 +1,55 @@
+#!/bin/sh
+
+HOSTROOT=/hostroot
+
+echo
+echo "########################"
+echo "# Doing File Overrides #"
+echo "########################"
+if [ -r /overrides ] ; then
+    cd /overrides
+    for x in $(find . -type f); do
+        echo -n "CHECKING $x: "
+        dst=$HOSTROOT/$x
+        if [ -f $dst ] ; then
+            srchash=$(sha1sum $x | awk '{print $1}')
+            dsthash=$(sha1sum $dst | awk '{print $1}')
+            if [ "$srchash" == "$dsthash" ] ; then
+                echo MATCH
+                continue
+            else
+                echo MISMATCH
+            fi
+        else
+            mkdir -p $HOSTROOT/$(dirname $x)
+            echo MISSING
+        fi
+        cp -a $x $dst
+        REBOOT=1
+    done
+    cd /
+
+    if [ -n "$REBOOT" ] ; then
+        echo
+        echo "###########################"
+        echo "# Requesting Rebooting... #"
+        echo "###########################"
+        exit 3
+    fi
+fi
+
+if [ -r /run.d ] ; then
+    echo
+    echo "###################"
+    echo "# Running scripts #"
+    echo "###################"
+    export -p > /tmp/ecsbootstrap.$$.env
+    source /tmp/ecsbootstrap.$$.env
+    for x in /run.d/* ; do
+        echo RUNNING: $x
+        $x
+        if [ $? -ne 0 ] ; then
+            exit $?
+        fi
+    done
+fi

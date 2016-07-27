@@ -1,11 +1,11 @@
 ecsextender
 ========
-Extend an ECS cluster instance with Consul and some extras.
+Extend an ECS cluster instance with Consul and other goodies.
 
 
 Example user-data
 --------
-The use of this container is to run consul and some extras on an AWS ECS
+The use of this container is to run consul and some other goodies on an AWS ECS
 optimized AMI.  Your autoscaling group should use this user-data for proper
 operation.
 
@@ -14,11 +14,13 @@ operation.
 cat >> /etc/rc.local <<EOF
 
 docker pull homecu/ecsextender
-docker run --net host \\
+docker run \
+    --net host \\
+    --privileged \\
     -v /var/run/docker.sock:/var/run/docker.sock \\
     -v /:/hostroot \\
-    --privileged \\
     homecu/ecsextender
+
 if [ \$? -eq 3 ] ; then
   reboot
 fi
@@ -36,13 +38,13 @@ instance user-data.  For example...
 #!/bin/bash -x
 cat >> /etc/rc.local <<EOF
 
-docker pull homecu/ecsconsul
+docker pull homecu/ecsextender
 docker run --net host \\
     -v /var/run/docker.sock:/var/run/docker.sock \\
     -v /:/hostroot \\
     --privileged \\
     -e OPTIONAL_ENV_ARG=somevalue \\
-    homecu/ecsconsul
+    homecu/ecsextender
 if [ \$? -eq 3 ] ; then
   reboot
 fi
@@ -53,4 +55,6 @@ EOF
 ### Supported ENV switches
 
 1. **ELASTICSEARCH_HOST** - Centralize logging to an elasticsearch service.
-   Example value: `search-foo-ezl00000000000BBBBBBBBBBBB.us-west-2.es.amazonaws.com:80`
+   Example value: `http://search-foo-ezl00000000000BBBBBBBBBBBB.us-west-2.es.amazonaws.com`
+2. **ELASTICSEARCH_GELF_URN** - URN for elasticsearch gelf logging. Eg. /docker/logs
+3. **ELASTICSEARCH_TCPJSON_URN** - URN for elasticsearch tcpjson stats collection. Eg. /docker/stats
