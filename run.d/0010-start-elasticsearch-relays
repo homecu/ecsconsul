@@ -1,0 +1,19 @@
+#!/bin/sh -x
+
+GELF=gelf-es-relay
+TCPJSON=tcpjson-es-relay
+
+docker build https://github.com/mayfield/gelf-elasticsearch.git -t $GELF
+docker rm $GELF 2>/dev/null
+docker run \
+    --detach \
+    --publish 12201:12201/udp \
+    --name $GELF \
+    $GELF $ELASTICSEARCH_HOST/$ELASTICSEARCH_GELF_URN
+
+docker build https://github.com/mayfield/tcpjson-elasticsearch.git -t $TCPJSON
+docker rm $TCPJSON 2>/dev/null
+docker run \
+    --detach \
+    --name $TCPJSON \
+    $TCPJSON $ELASTICSEARCH_HOST/$ELASTICSEARCH_TCPJSON_URN
