@@ -8,6 +8,7 @@ docker rm $GELF 2>/dev/null
 docker run \
     --detach \
     --publish 12201:12201/udp \
+    --log-driver json-file \
     --name $GELF \
     $GELF $ELASTICSEARCH_HOST/$ELASTICSEARCH_GELF_URN
 
@@ -16,4 +17,5 @@ docker rm $TCPJSON 2>/dev/null
 docker run \
     --detach \
     --name $TCPJSON \
+    --log-driver json-file \
     $TCPJSON $ELASTICSEARCH_HOST/$ELASTICSEARCH_TCPJSON_URN
