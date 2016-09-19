@@ -6,18 +6,13 @@ JOIN_ARGS=$(for x in $CONSUL_SERVERS; do echo -retry-join=$x ; done)
 
 mkdir -p /hostroot/ecs/consul
 docker run -d \
-    -p 8300:8300 \
-    -p 8301:8301 \
-    -p 8301:8301/udp \
-    -p 8400:8400 \
-    -p 8500:8500 \
-    -p 53:8600 \
-    -p 53:8600/udp \
+    --net host \
+    -e 'CONSUL_ALLOW_PRIVILEGED_PORTS=' \
     -v /ecs/consul:/data \
-    -v /var/run/docker.sock:/var/run/docker.sock \
-    gliderlabs/consul \
+    consul \
         agent -server \
         -data-dir=/data \
+        -dns-port=53 \
         -client=0.0.0.0 \
         -advertise=$LOCALIP \
         -node=$IID \
