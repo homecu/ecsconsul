@@ -12,6 +12,7 @@ docker run -d \
     consul \
         agent -server \
         -dns-port=53 \
+        -client=0.0.0.0 \
         -advertise=$LOCALIP \
         -node=$IID \
         -bootstrap-expect=3 \
