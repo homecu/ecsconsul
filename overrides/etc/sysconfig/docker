@@ -7,6 +7,6 @@ DAEMON_MAXFILES=1048576
 # OPTIONS="--ip-forward=true --iptables=true"
 # By default we limit the number of open files per container
 OPTIONS="--default-ulimit nofile=10000:100000"
-OPTIONS="$OPTIONS --dns 127.0.0.1 --dns 10.90.0.2"
+OPTIONS="$OPTIONS --dns 172.17.0.1 --dns 10.90.0.2"
 OPTIONS="$OPTIONS --log-driver gelf"
 OPTIONS="$OPTIONS --log-opt gelf-address=udp://127.0.0.1:12201"
