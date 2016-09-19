@@ -16,6 +16,15 @@ docker run -d \
     -v /ecs/consul:/data \
     -v /var/run/docker.sock:/var/run/docker.sock \
     gliderlabs/consul \
-        agent -server -data-dir=/data -client=0.0.0.0 -advertise=$LOCALIP \
-        -node=$IID -bootstrap-expect=3 -ui $JOIN_ARGS \
-        -retry-max=30 -retry-interval=2s -recursor=$VPCDNS
+        agent -server \
+        -data-dir=/data \
+        -client=0.0.0.0 \
+        -advertise=$LOCALIP \
+        -node=$IID \
+        -bootstrap-expect=3 \
+        -ui \
+        $JOIN_ARGS \
+        -retry-max=30 \
+        -retry-interval=10s \
+        -reconnect-timeout=8h \
+        -recursor=$VPCDNS
