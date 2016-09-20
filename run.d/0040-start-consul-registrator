@@ -5,4 +5,6 @@
 docker run -d --net host \
     -v /var/run/docker.sock:/tmp/docker.sock \
     gliderlabs/registrator \
-        -ip=$LOCALIP consul://127.0.0.1:8500
+        -ip=$LOCALIP \
+        -cleanup \
+        consul://127.0.0.1:8500
