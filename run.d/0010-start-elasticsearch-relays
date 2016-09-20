@@ -10,7 +10,10 @@ docker run \
     --publish 12201:12201/udp \
     --log-driver json-file \
     --name $GELF \
-    $GELF $ELASTICSEARCH_HOST/$ELASTICSEARCH_GELF_URN
+    $GELF \
+        --instance_id $IID \
+        --instance_ip $LOCALIP \
+        $ELASTICSEARCH_HOST/$ELASTICSEARCH_GELF_URN
 
 docker build -t $TCPJSON https://github.com/mayfield/tcpjson-elasticsearch.git
 docker rm $TCPJSON 2>/dev/null
