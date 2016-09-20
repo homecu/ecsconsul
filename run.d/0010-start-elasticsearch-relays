@@ -1,5 +1,7 @@
 #!/bin/sh -x
 
+. /ecsboot.env
+
 GELF=gelf-es-relay
 TCPJSON=tcpjson-es-relay
 
