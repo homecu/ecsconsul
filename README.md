@@ -54,7 +54,9 @@ EOF
 
 ### Supported ENV switches
 
-1. **ELASTICSEARCH_HOST** - Centralize logging to an elasticsearch service.
-   Example value: `http://search-foo-ezl00000000000BBBBBBBBBBBB.us-west-2.es.amazonaws.com`
-2. **ELASTICSEARCH_GELF_URN** - URN for elasticsearch gelf logging. Eg. /docker/logs
-3. **ELASTICSEARCH_TCPJSON_URN** - URN for elasticsearch tcpjson stats collection. Eg. /docker/stats
+1. **ELASTICSEARCH_URL** - Centralize logging to an elasticsearch service.
+   Example value: `http://search-foo-bar.us-west-2.es.amazonaws.com`
+2. **ELASTICSEARCH_GELF_INDEX** - Elasticsearch index for gelf logging. Eg. logging
+3. **ELASTICSEARCH_GELF_TYPE** - Elasticsearch type column for gelf logging. Eg. docker
+4. **ELASTICSEARCH_TCPJSON_INDEX** - Elasticsearch index for tcpjson logging. Eg. statistics
+5. **ELASTICSEARCH_TCPJSON_TYPE** - Elasticsearch type column for tcpjson logging. Eg. docker
