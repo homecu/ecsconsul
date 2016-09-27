@@ -1,4 +1,4 @@
-#!/bin/sh -x
+#!/bin/sh -xe
 
 . /ecsboot.env
 
@@ -13,7 +13,7 @@ docker run \
     --log-driver json-file \
     --name $GELF \
     $GELF \
-        $ELASTICSEARCH_URL
+        $ELASTICSEARCH_URL \
         --instance_id $IID \
         --instance_ip $LOCALIP
             
