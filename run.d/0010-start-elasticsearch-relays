@@ -13,11 +13,9 @@ docker run \
     --log-driver json-file \
     --name $GELF \
     $GELF \
+        $ELASTICSEARCH_URL
         --instance_id $IID \
-        --instance_ip $LOCALIP \
-        $ELASTICSEARCH_URL \
-            --es_index $ELASTICSEARCH_GELF_INDEX \
-            --es_type $ELASTICSEARCH_GELF_TYPE
+        --instance_ip $LOCALIP
             
 
 docker build -t $TCPJSON https://github.com/mayfield/tcpjson-elasticsearch.git
@@ -27,6 +25,4 @@ docker run \
     --name $TCPJSON \
     --log-driver json-file \
     $TCPJSON \
-        $ELASTICSEARCH_URL \
-        --es_index $ELASTICSEARCH_TCPJSON_INDEX \
-        --es_type $ELASTICSEARCH_TCPJSON_TYPE
+        $ELASTICSEARCH_URL
