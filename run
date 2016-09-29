@@ -49,7 +49,8 @@ if [ -r /run.d ] ; then
         echo RUNNING: $x
         $x
         if [ $? -ne 0 ] ; then
-            exit $?
+            echo SCRIPT ERROR: $x
+            exit 3  # force a reboot
         fi
     done
 fi
