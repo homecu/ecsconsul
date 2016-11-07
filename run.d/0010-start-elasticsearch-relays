@@ -14,8 +14,8 @@ docker run \
     --name $GELF \
     $GELF \
         $ELASTICSEARCH_URL \
-        --instance_id $IID \
-        --instance_ip $LOCALIP
+        --instance-id $IID \
+        --instance-ip $LOCALIP
             
 
 docker build -t $TCPJSON https://github.com/mayfield/tcpjson-elasticsearch.git
