@@ -1,9 +1,10 @@
 #!/bin/sh -xe
 
-docker run \
-    --detach \
-    --volume /var/run/docker.sock:/var/run/docker.sock \
-    --link tcpjson-es-relay:relay \
-    jmayfield/docker-stats -- \
-        --statsinterval 300 \
-        --host relay:19831
+echo WARNING: Skipping docker stats until its optimized.
+#docker run \
+#    --detach \
+#    --volume /var/run/docker.sock:/var/run/docker.sock \
+#    --link tcpjson-es-relay:relay \
+#    jmayfield/docker-stats -- \
+#        --statsinterval 300 \
+#        --host relay:19831
