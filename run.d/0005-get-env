@@ -27,5 +27,5 @@ VPCDNS=$(echo $VPCNET | awk -F0/ '{print $1}')2
 echo VPCDNS=$VPCDNS >> $ENV
 
 SUBNETS=$(aws --output text ec2 describe-subnets --region $REGION \
-          --filters Name=vpc-id,Values=$VPCID | grep SUBNETS | awk '{print $4}' | xargs)
+          --filters Name=vpc-id,Values=$VPCID | grep SUBNETS | awk '{print $5}' | xargs)
 echo "SUBNETS=\"$SUBNETS\"" >> $ENV
