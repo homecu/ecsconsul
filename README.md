@@ -11,6 +11,9 @@ operation.
 
 ```
 #!/bin/bash -x
+
+echo "EFS=efs.region.amazonaws.com" > /etc/sysconfig/efs
+
 cat >> /etc/rc.local <<EOF
 
 docker pull homecu/ecsextender
