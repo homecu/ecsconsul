@@ -18,11 +18,12 @@ docker run \
         --instance-ip $LOCALIP
             
 
-docker build -t $TCPJSON https://github.com/mayfield/tcpjson-elasticsearch.git
-docker rm $TCPJSON 2>/dev/null
-docker run \
-    --detach \
-    --name $TCPJSON \
-    --log-driver json-file \
-    $TCPJSON \
-        $ELASTICSEARCH_URL
+# Skipping docker stats system till it's more robust
+#docker build -t $TCPJSON https://github.com/mayfield/tcpjson-elasticsearch.git
+#docker rm $TCPJSON 2>/dev/null
+#docker run \
+#    --detach \
+#    --name $TCPJSON \
+#    --log-driver json-file \
+#    $TCPJSON \
+#        $ELASTICSEARCH_URL
