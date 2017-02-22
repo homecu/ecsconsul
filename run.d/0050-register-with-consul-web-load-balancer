@@ -1,6 +1,0 @@
-#!/bin/sh -x
-
-. /ecsboot.env
-
-AWS_DEFAULT_REGION=$REGION aws elb register-instances-with-load-balancer \
-    --load-balancer-name consul --instances $IID
