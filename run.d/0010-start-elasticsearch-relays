@@ -5,7 +5,7 @@
 GELF=gelf-es-relay
 TCPJSON=tcpjson-es-relay
 
-docker build -t $GELF https://github.com/mayfield/gelf-elasticsearch.git
+docker build -t $GELF https://github.com/homecu/gelf-elasticsearch.git
 docker rm $GELF 2>/dev/null
 docker run \
     --detach \
@@ -19,7 +19,7 @@ docker run \
             
 
 # Skipping docker stats system till it's more robust
-#docker build -t $TCPJSON https://github.com/mayfield/tcpjson-elasticsearch.git
+#docker build -t $TCPJSON https://github.com/homecu/tcpjson-elasticsearch.git
 #docker rm $TCPJSON 2>/dev/null
 #docker run \
 #    --detach \
